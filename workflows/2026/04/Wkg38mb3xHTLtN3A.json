@@ -1,0 +1,331 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-04-03T18:54:41.000Z",
+    "createdAt": "2026-04-03T18:47:56.681Z",
+    "versionId": "c0f44d70-b0a3-4d93-9409-8306cab1b0a3",
+    "workflowId": "Wkg38mb3xHTLtN3A",
+    "nodes": [
+      {
+        "parameters": {
+          "resource": "file",
+          "operation": "get",
+          "owner": {
+            "__rl": true,
+            "mode": "name",
+            "value": "={{ $json.repo_owner }}"
+          },
+          "repository": {
+            "__rl": true,
+            "mode": "name",
+            "value": "={{ $json.repo_name }}"
+          },
+          "filePath": "={{ $json.file_path }}",
+          "asBinaryProperty": false,
+          "additionalParameters": {}
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          -112,
+          -48
+        ],
+        "id": "507b36cc-8d50-4fc5-b904-61071dad8957",
+        "name": "Get a file",
+        "webhookId": "cb95f6fc-4c80-48b5-aac2-995296d9ace4",
+        "credentials": {
+          "githubApi": {
+            "id": "joZkgj2nTicrQhtk",
+            "name": "GitHub account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "file_path"
+              },
+              {
+                "name": "repo_owner"
+              },
+              {
+                "name": "repo_name"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -496,
+          -48
+        ],
+        "id": "5a0b4340-826a-4de5-807f-da62bbd84f0b",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "295b82e7-fadf-4041-9b5d-f2dcfc9fb2ad",
+                "name": "file_path",
+                "value": "=call_pros/gemini",
+                "type": "string"
+              },
+              {
+                "id": "abcd7ddb-1dba-4cbd-9ac3-4df657980b76",
+                "name": "repo_owner",
+                "value": "=Ben-Moriarty",
+                "type": "string"
+              },
+              {
+                "id": "4c71f3f5-1b93-455f-98c1-80cd923e3853",
+                "name": "repo_name",
+                "value": "=useful_scripts",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -288,
+          -48
+        ],
+        "id": "87c05c1c-2347-4233-ace2-6dd77982511f",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "jsCode": "const encodedData = $input.first().json.content;\nconst decodedBuffer = Buffer.from(encodedData, 'base64');\nconst decodedStr = decodedBuffer.toString('utf8');\n\nreturn [{\n  json: {\n    decoded_code: decodedStr\n  }\n}]"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          96,
+          -48
+        ],
+        "id": "857601a7-2175-4de0-8f31-52d5248677f9",
+        "name": "Code in JavaScript"
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "Get a file",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get a file": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Ben Moriarty",
+    "name": "Version c0f44d70",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "c0f44d70-b0a3-4d93-9409-8306cab1b0a3",
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-03T18:26:02.712Z",
+  "id": "Wkg38mb3xHTLtN3A",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "pull-github",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "mode": "name",
+          "value": "={{ $json.repo_owner }}"
+        },
+        "repository": {
+          "__rl": true,
+          "mode": "name",
+          "value": "={{ $json.repo_name }}"
+        },
+        "filePath": "={{ $json.file_path }}",
+        "asBinaryProperty": false,
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -112,
+        -48
+      ],
+      "id": "507b36cc-8d50-4fc5-b904-61071dad8957",
+      "name": "Get a file",
+      "webhookId": "cb95f6fc-4c80-48b5-aac2-995296d9ace4",
+      "credentials": {
+        "githubApi": {
+          "id": "joZkgj2nTicrQhtk",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "file_path"
+            },
+            {
+              "name": "repo_owner"
+            },
+            {
+              "name": "repo_name"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -496,
+        -48
+      ],
+      "id": "5a0b4340-826a-4de5-807f-da62bbd84f0b",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "295b82e7-fadf-4041-9b5d-f2dcfc9fb2ad",
+              "name": "file_path",
+              "value": "=call_pros/gemini",
+              "type": "string"
+            },
+            {
+              "id": "abcd7ddb-1dba-4cbd-9ac3-4df657980b76",
+              "name": "repo_owner",
+              "value": "=Ben-Moriarty",
+              "type": "string"
+            },
+            {
+              "id": "4c71f3f5-1b93-455f-98c1-80cd923e3853",
+              "name": "repo_name",
+              "value": "=useful_scripts",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -288,
+        -48
+      ],
+      "id": "87c05c1c-2347-4233-ace2-6dd77982511f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "const encodedData = $input.first().json.content;\nconst decodedBuffer = Buffer.from(encodedData, 'base64');\nconst decodedStr = decodedBuffer.toString('utf8');\n\nreturn [{\n  json: {\n    decoded_code: decodedStr\n  }\n}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        -48
+      ],
+      "id": "857601a7-2175-4de0-8f31-52d5248677f9",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "Ben-Moriarty",
+  "repo_path": "workflows/",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-03T18:26:02.714Z",
+      "createdAt": "2026-04-03T18:26:02.714Z",
+      "role": "workflow:owner",
+      "workflowId": "Wkg38mb3xHTLtN3A",
+      "projectId": "S02UZblfs2KvTXoJ"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-04-03T18:47:56.681Z",
+  "versionId": "c0f44d70-b0a3-4d93-9409-8306cab1b0a3"
+}
