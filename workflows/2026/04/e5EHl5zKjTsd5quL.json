@@ -1,0 +1,112 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Extract Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-08T21:09:46.807Z",
+  "id": "e5EHl5zKjTsd5quL",
+  "isArchived": false,
+  "meta": null,
+  "name": "MCP Smoke Test",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "9f9e3819-1c69-435f-898a-e116118cf367",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://jsonplaceholder.typicode.com/todos/1",
+        "options": {}
+      },
+      "id": "4513d9a4-be6f-41cf-9b3f-5439e57a0a1d",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -48,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nreturn items.map(item => ({\n  json: {\n    todoId: item.json.id,\n    userId: item.json.userId,\n    title: item.json.title\n  }\n}));"
+      },
+      "id": "19668fe2-4de1-47ee-ae2f-4f72087574c8",
+      "name": "Extract Fields",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## MCP Smoke Test\nManual Trigger -> HTTP Request -> Code\n- Calls a public no-auth endpoint\n- Extracts: todoId, userId, title",
+        "height": 220,
+        "width": 380,
+        "color": 5
+      },
+      "id": "b9685a9f-33ac-4803-8ac3-14a47ec03e87",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        48
+      ]
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "Ben-Moriarty",
+  "repo_path": "workflows/",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-08T21:09:46.814Z",
+      "createdAt": "2026-04-08T21:09:46.814Z",
+      "role": "workflow:owner",
+      "workflowId": "e5EHl5zKjTsd5quL",
+      "projectId": "S02UZblfs2KvTXoJ"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-04-08T21:09:46.807Z",
+  "versionId": "3e17fe38-8513-4575-8ba9-83e6ad4c3b87"
+}
