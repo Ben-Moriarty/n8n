@@ -1,0 +1,1402 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Cron Weekdays PreMarket ET": {
+      "main": [
+        [
+          {
+            "node": "Merge Triggers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Test Run": {
+      "main": [
+        [
+          {
+            "node": "Merge Triggers",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Triggers": {
+      "main": [
+        [
+          {
+            "node": "Sheets Read Watchlist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sheets Read Watchlist": {
+      "main": [
+        [
+          {
+            "node": "Code Tag Run Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Tag Run Context": {
+      "main": [
+        [
+          {
+            "node": "Filter Valid Tickers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Valid Tickers": {
+      "main": [
+        [
+          {
+            "node": "Split Watchlist Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Watchlist Batches": {
+      "main": [
+        [
+          {
+            "node": "Sheets Read Log For Digest",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait Rate Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Rate Limit": {
+      "main": [
+        [
+          {
+            "node": "HTTP Finnhub Quote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Finnhub Quote": {
+      "main": [
+        [
+          {
+            "node": "Set Merge Quote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Merge Quote": {
+      "main": [
+        [
+          {
+            "node": "HTTP Finnhub News",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Finnhub News": {
+      "main": [
+        [
+          {
+            "node": "Set Merge News",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Merge News": {
+      "main": [
+        [
+          {
+            "node": "HTTP Finnhub Earnings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Finnhub Earnings": {
+      "main": [
+        [
+          {
+            "node": "Set Merge Earnings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Merge Earnings": {
+      "main": [
+        [
+          {
+            "node": "HTTP Finnhub Filings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Finnhub Filings": {
+      "main": [
+        [
+          {
+            "node": "Set Merge Filings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Merge Filings": {
+      "main": [
+        [
+          {
+            "node": "Code Composite Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Composite Score": {
+      "main": [
+        [
+          {
+            "node": "Code Prepare OpenAI Body",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Prepare OpenAI Body": {
+      "main": [
+        [
+          {
+            "node": "HTTP OpenAI Brief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP OpenAI Brief": {
+      "main": [
+        [
+          {
+            "node": "Code Parse AI And Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sheets Append Run Log": {
+      "main": [
+        [
+          {
+            "node": "IF Instant Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Instant Alert": {
+      "main": [
+        [
+          {
+            "node": "Split Watchlist Batches",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Watchlist Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sheets Read Log For Digest": {
+      "main": [
+        [
+          {
+            "node": "Code Build Daily Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Build Daily Digest": {
+      "main": [
+        []
+      ]
+    },
+    "Code Parse AI And Format": {
+      "main": [
+        [
+          {
+            "node": "Code Shrink For Sheets Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Shrink For Sheets Log": {
+      "main": [
+        [
+          {
+            "node": "Sheets Append Run Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-08T21:36:31.524Z",
+  "error": "The resource you are requesting could not be found",
+  "id": "EKvXHstg19rlxbBC",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Stock Radar",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Stock Radar\nProduction research monitor — **no trading** (signals + alerts only).\nCron + manual · Finnhub + OpenAI · Google Sheets log · Slack / Discord / SMTP email.\nConfigure env vars + credentials after import (see chat deliverable).",
+        "height": 220,
+        "width": 520,
+        "color": 7
+      },
+      "id": "feb19fe5-0940-476d-a426-6eb84ee9dff5",
+      "name": "Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "25 8 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "b5aa5fa5-24a8-4481-96cc-d3ffddaed44b",
+      "name": "Cron Weekdays PreMarket ET",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        256,
+        192
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "69c3eb35-73c6-4f78-b8f4-60c904d44c58",
+      "name": "Manual Test Run",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        256,
+        352
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "12eb0ec1-394e-483b-8b42-9eac734a4ce1",
+      "name": "Merge Triggers",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        544,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "=1LwbdIAxxx29Nbpd_ut5_RgcRHBDikISA9Hsx3PXAPMM",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "=watchlist",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "1bf754a9-9b0f-4375-bb39-cba8b56a1391",
+      "name": "Sheets Read Watchlist",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        784,
+        272
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SHO2sMXeHEBM6h0y",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Inputs\n**Google Sheet** watchlist tab with header row:\n`ticker, company_name, sector, target_style, alert_threshold`\n\nOptional: swap in **Manual Trigger → Set** with a JSON array for demos (bypass the first Sheets node).",
+        "height": 200,
+        "width": 420,
+        "color": 7
+      },
+      "id": "1f54dea3-d320-4ba4-995f-8b66edda6fa7",
+      "name": "Inputs",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        752,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const runId = $execution.id;\nconst started = $execution.startedAt;\nreturn $input.all().map((x) => ({\n  json: { ...x.json, run_id: runId, workflow_run_started_at: started },\n}));\n"
+      },
+      "id": "50c278e2-8ba9-4576-bac1-eb1ce8359551",
+      "name": "Code Tag Run Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9278f047-e367-4537-a2e2-a0a9ea774c47",
+              "leftValue": "={{ $json.ticker }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "32f9fa4f-e466-408f-9c63-f17577d54b33",
+      "name": "Filter Valid Tickers",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1216,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "2c7ade88-b42e-48c7-8416-793db900824f",
+      "name": "Split Watchlist Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1440,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Collect (Finnhub)\n4 GETs per ticker + **Wait** between tickers.\nHTTP nodes: retries + continue on error (inspect partial runs).\nExtend: add `stock/candle` for true volume / MA studies.",
+        "height": 170,
+        "width": 420,
+        "color": 7
+      },
+      "id": "796b8235-45fe-4c75-81d7-7e4aa7f4aa95",
+      "name": "Collect Finnhub",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1.8
+      },
+      "id": "b9a6be77-a852-4988-b1e7-42a87fc66719",
+      "name": "Wait Rate Limit",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1664,
+        272
+      ],
+      "webhookId": "bba53b2e-71c6-440a-9e60-25b1c3a4cbe1"
+    },
+    {
+      "parameters": {
+        "url": "=https://finnhub.io/api/v1/quote?symbol={{ $('Split Watchlist Batches').item.json.ticker }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 45000
+        }
+      },
+      "id": "ca3bfe3a-aec4-4080-81ec-2172b2a85f44",
+      "name": "HTTP Finnhub Quote",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1856,
+        272
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ZXh7PGdLBoeduH94",
+          "name": "Header Auth account 2"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c4ed348a-9eda-41de-8a2f-77e6257fac30",
+              "name": "ticker",
+              "value": "={{ $('Split Watchlist Batches').item.json.ticker }}",
+              "type": "string"
+            },
+            {
+              "id": "f52a0543-e287-4038-86b3-f9d1070db768",
+              "name": "company_name",
+              "value": "={{ $('Split Watchlist Batches').item.json.company_name }}",
+              "type": "string"
+            },
+            {
+              "id": "92409481-ae37-4667-897c-4954e59f3473",
+              "name": "sector",
+              "value": "={{ $('Split Watchlist Batches').item.json.sector }}",
+              "type": "string"
+            },
+            {
+              "id": "824cd619-f45c-4e87-a012-afee4e76334d",
+              "name": "target_style",
+              "value": "={{ $('Split Watchlist Batches').item.json.target_style }}",
+              "type": "string"
+            },
+            {
+              "id": "ed6fd7ff-b68c-48ae-ad41-c593e58bd3cf",
+              "name": "alert_threshold",
+              "value": "={{ $('Split Watchlist Batches').item.json.alert_threshold }}",
+              "type": "number"
+            },
+            {
+              "id": "fd6e4ed1-5378-44c4-8583-606c56d87c59",
+              "name": "run_id",
+              "value": "={{ $('Split Watchlist Batches').item.json.run_id }}",
+              "type": "string"
+            },
+            {
+              "id": "3b125d32-063b-463f-a969-4cb28eb960b9",
+              "name": "workflow_run_started_at",
+              "value": "={{ $('Split Watchlist Batches').item.json.workflow_run_started_at }}",
+              "type": "string"
+            },
+            {
+              "id": "7d7f903c-68ff-4837-97e6-a8b41cbfa42c",
+              "name": "quote",
+              "value": "={{ $json }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "03f7e0dc-0ee9-40a9-9aa6-84d650eafdc1",
+      "name": "Set Merge Quote",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2080,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://finnhub.io/api/v1/company-news?symbol={{ $('Split Watchlist Batches').item.json.ticker }}&from={{ $now.minus({days: 7}).toFormat('yyyy-MM-dd') }}&to={{ $now.toFormat('yyyy-MM-dd') }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 45000
+        }
+      },
+      "id": "e0a813b5-4da9-4eba-862f-1e05e3d8fe3b",
+      "name": "HTTP Finnhub News",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2304,
+        272
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ZXh7PGdLBoeduH94",
+          "name": "Header Auth account 2"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "035e003b-5dea-4a95-a381-78831209fdbe",
+              "name": "ticker",
+              "value": "={{ $('Set Merge Quote').item.json.ticker }}",
+              "type": "string"
+            },
+            {
+              "id": "aa9a4e4e-ac15-4b62-a446-9102cf86021c",
+              "name": "company_name",
+              "value": "={{ $('Set Merge Quote').item.json.company_name }}",
+              "type": "string"
+            },
+            {
+              "id": "5c489642-03bc-4470-a774-54dda5d263e2",
+              "name": "sector",
+              "value": "={{ $('Set Merge Quote').item.json.sector }}",
+              "type": "string"
+            },
+            {
+              "id": "aed69d77-99b6-4bdd-94d9-b130442f8b0e",
+              "name": "target_style",
+              "value": "={{ $('Set Merge Quote').item.json.target_style }}",
+              "type": "string"
+            },
+            {
+              "id": "feeb55e6-d184-48ca-a868-53729a19906e",
+              "name": "alert_threshold",
+              "value": "={{ $('Set Merge Quote').item.json.alert_threshold }}",
+              "type": "number"
+            },
+            {
+              "id": "a5cab5e0-3147-469c-a160-7fd6f380a2ef",
+              "name": "run_id",
+              "value": "={{ $('Set Merge Quote').item.json.run_id }}",
+              "type": "string"
+            },
+            {
+              "id": "76f86c2a-0f85-4e6e-a78e-13425cabd7b2",
+              "name": "workflow_run_started_at",
+              "value": "={{ $('Set Merge Quote').item.json.workflow_run_started_at }}",
+              "type": "string"
+            },
+            {
+              "id": "4b26afbc-c4ca-492d-bd50-17f97249a742",
+              "name": "quote",
+              "value": "={{ $('Set Merge Quote').item.json.quote }}",
+              "type": "object"
+            },
+            {
+              "id": "f86d223e-6c39-4440-8657-a48fac7ee55b",
+              "name": "news",
+              "value": "={{ $items() }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "dffeeb56-b31d-45af-8a4a-cd0641c112b6",
+      "name": "Set Merge News",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2528,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://finnhub.io/api/v1/calendar/earnings?from={{ $now.toFormat('yyyy-MM-dd') }}&to={{ $now.plus({days: 90}).toFormat('yyyy-MM-dd') }}&symbol={{ $('Split Watchlist Batches').item.json.ticker }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 45000
+        }
+      },
+      "id": "25aa0a2d-0831-4292-bdca-bfa88ee2545d",
+      "name": "HTTP Finnhub Earnings",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2736,
+        272
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ZXh7PGdLBoeduH94",
+          "name": "Header Auth account 2"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d076589d-4728-49e1-9357-052bf42a73c4",
+              "name": "ticker",
+              "value": "={{ $('Set Merge News').item.json.ticker }}",
+              "type": "string"
+            },
+            {
+              "id": "99b8c2c7-6fe3-4e15-9a14-d8a9cbae3474",
+              "name": "company_name",
+              "value": "={{ $('Set Merge News').item.json.company_name }}",
+              "type": "string"
+            },
+            {
+              "id": "11fe3e85-2ef7-4185-ae43-42baea30a00d",
+              "name": "sector",
+              "value": "={{ $('Set Merge News').item.json.sector }}",
+              "type": "string"
+            },
+            {
+              "id": "0e4744a6-2b38-433e-a4a2-89c26435092d",
+              "name": "target_style",
+              "value": "={{ $('Set Merge News').item.json.target_style }}",
+              "type": "string"
+            },
+            {
+              "id": "1ce7d183-f64d-4b8d-aeee-381fe54ad2a5",
+              "name": "alert_threshold",
+              "value": "={{ $('Set Merge News').item.json.alert_threshold }}",
+              "type": "number"
+            },
+            {
+              "id": "81b47b31-71e0-469b-bbb3-902c006ef4d9",
+              "name": "run_id",
+              "value": "={{ $('Set Merge News').item.json.run_id }}",
+              "type": "string"
+            },
+            {
+              "id": "fd3387b4-84e7-4307-a506-a96a981cc496",
+              "name": "workflow_run_started_at",
+              "value": "={{ $('Set Merge News').item.json.workflow_run_started_at }}",
+              "type": "string"
+            },
+            {
+              "id": "397b0747-07c9-48cf-9099-a0f9e9d7cb47",
+              "name": "quote",
+              "value": "={{ $('Set Merge News').item.json.quote }}",
+              "type": "object"
+            },
+            {
+              "id": "462d9b11-4e7c-4cf0-a3fe-fa9322247aaf",
+              "name": "news",
+              "value": "={{ $('Set Merge News').item.json.news }}",
+              "type": "array"
+            },
+            {
+              "id": "bb17192d-e980-478d-8b61-570ccc025c3a",
+              "name": "earnings",
+              "value": "={{ $json }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b0551d48-8d3c-4adb-b210-0f2c652454e4",
+      "name": "Set Merge Earnings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2960,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://finnhub.io/api/v1/stock/filings?symbol={{ $('Split Watchlist Batches').item.json.ticker }}&from={{ $now.minus({days: 30}).toFormat('yyyy-MM-dd') }}&to={{ $now.toFormat('yyyy-MM-dd') }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 45000
+        }
+      },
+      "id": "f119551b-d62e-4e7f-8610-7fc35d92d1b4",
+      "name": "HTTP Finnhub Filings",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3184,
+        272
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ZXh7PGdLBoeduH94",
+          "name": "Header Auth account 2"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3e5e56be-990f-4468-9858-800f733b0b45",
+              "name": "ticker",
+              "value": "={{ $('Set Merge Earnings').item.json.ticker }}",
+              "type": "string"
+            },
+            {
+              "id": "292cbe86-33e0-4e02-83e0-d599e56085e5",
+              "name": "company_name",
+              "value": "={{ $('Set Merge Earnings').item.json.company_name }}",
+              "type": "string"
+            },
+            {
+              "id": "ae47ea2e-f5b0-463d-a6d5-ba448d6dbb17",
+              "name": "sector",
+              "value": "={{ $('Set Merge Earnings').item.json.sector }}",
+              "type": "string"
+            },
+            {
+              "id": "baab5344-d0c7-47be-93fb-e00f7e74cef7",
+              "name": "target_style",
+              "value": "={{ $('Set Merge Earnings').item.json.target_style }}",
+              "type": "string"
+            },
+            {
+              "id": "836abda0-e5d3-4f47-9ade-c9f40534f4c8",
+              "name": "alert_threshold",
+              "value": "={{ $('Set Merge Earnings').item.json.alert_threshold }}",
+              "type": "number"
+            },
+            {
+              "id": "4753aca7-734c-4fd0-b374-677ffd6e2716",
+              "name": "run_id",
+              "value": "={{ $('Set Merge Earnings').item.json.run_id }}",
+              "type": "string"
+            },
+            {
+              "id": "ae496400-b40b-41aa-b699-c6f5a213650b",
+              "name": "workflow_run_started_at",
+              "value": "={{ $('Set Merge Earnings').item.json.workflow_run_started_at }}",
+              "type": "string"
+            },
+            {
+              "id": "5bcc7f51-0ea0-44d0-a484-870af08b833d",
+              "name": "quote",
+              "value": "={{ $('Set Merge Earnings').item.json.quote }}",
+              "type": "object"
+            },
+            {
+              "id": "fbd2f178-d339-4502-a4d9-ec0ba46d5d6b",
+              "name": "news",
+              "value": "={{ $('Set Merge Earnings').item.json.news }}",
+              "type": "array"
+            },
+            {
+              "id": "5fbb6da5-1bc1-4394-b983-f8731b643c25",
+              "name": "earnings",
+              "value": "={{ $('Set Merge Earnings').item.json.earnings }}",
+              "type": "object"
+            },
+            {
+              "id": "1a076feb-145c-4153-a6cc-05ebf071c077",
+              "name": "filings",
+              "value": "={{ $input.all() }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1d341421-67e9-4061-bf97-9d244d1ad0d3",
+      "name": "Set Merge Filings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3408,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Analyze\nDeterministic score in **Code Composite Score** (transparent weights).\n**OpenAI** returns structured JSON (summary, signals, red flags).",
+        "height": 140,
+        "width": 400,
+        "color": 7
+      },
+      "id": "700e646d-1132-4590-b713-d29487ee718b",
+      "name": "Analyze",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3040,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Composite Score Engine — transparent rules (edit to extend indicators)\nconst item = { ...$json };\nconst q = item.quote || {};\nconst dp = Number(q.dp) || 0;\nconst newsArr = Array.isArray(item.news) ? item.news : [];\nconst earn = item.earnings || {};\nconst earnList = Array.isArray(earn.earningsCalendar) ? earn.earningsCalendar : [];\nconst filingsRoot = item.filings;\nlet filingsArr = [];\nif (Array.isArray(filingsRoot)) filingsArr = filingsRoot;\nelse if (filingsRoot && Array.isArray(filingsRoot.data)) filingsArr = filingsRoot.data;\n\nlet momentum = Math.max(-18, Math.min(18, dp * 2.2));\n\nconst posWords = /beat|growth|upgrade|strong|bull|record|expansion|deal|win|launch|innovation|surprise/i;\nconst negWords = /miss|weak|downgrade|lawsuit|probe|investigation|layoff|warning|delay|recall|breach|fraud|sec/i;\nlet pos = 0;\nlet neg = 0;\nfor (const n of newsArr.slice(0, 30)) {\n  const h = `${n.headline || ''} ${n.summary || ''}`;\n  if (posWords.test(h)) pos++;\n  if (negWords.test(h)) neg++;\n}\nconst newsSent = Math.max(-12, Math.min(12, (pos - neg) * 2));\nconst buzz = Math.max(0, Math.min(6, Math.floor(newsArr.length / 3)));\n\nlet earnBoost = 0;\nconst today = new Date();\nfor (const row of earnList) {\n  const d = row.date ? new Date(row.date) : null;\n  if (!d || isNaN(d.getTime())) continue;\n  const days = (d - today) / 86400000;\n  if (days >= 0 && days <= 5) earnBoost = Math.max(earnBoost, 10);\n  else if (days > 5 && days <= 14) earnBoost = Math.max(earnBoost, 5);\n}\n\nconst recentFilings = filingsArr.filter((f) => {\n  const form = String(f.form || '').toUpperCase();\n  return ['8-K', '10-Q', '10-K', '4'].includes(form);\n});\nconst filingJitter = Math.min(8, recentFilings.length * 2);\nconst eightk = recentFilings.filter((f) => String(f.form || '').toUpperCase() === '8-K').length;\nconst riskFlag = eightk >= 2 ? 1 : 0;\n\nlet raw =\n  50 +\n  momentum +\n  newsSent +\n  buzz +\n  earnBoost +\n  filingJitter -\n  riskFlag * 6 +\n  (neg > pos ? -4 : 0);\nconst composite = Math.max(0, Math.min(100, Math.round(raw)));\n\nreturn [\n  {\n    json: {\n      ...item,\n      composite_score: composite,\n      headline_count: newsArr.length,\n      score_breakdown: {\n        momentum,\n        newsSent,\n        buzz,\n        earnBoost,\n        filingJitter,\n        riskFlag,\n        neg_headlines: neg,\n        pos_headlines: pos,\n      },\n    },\n  },\n];\n"
+      },
+      "id": "a64746f6-38ed-494a-8990-5e0c90633975",
+      "name": "Code Composite Score",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3616,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = { ...$json };\nconst sys =\n  'You are an equity research assistant. Respond with JSON only. Keys: ticker, score (0-100, align with composite_score), sentiment (bullish|neutral|bearish), summary (<=120 words), key_signals (string array), red_flags (string array), alert_recommended (boolean), rationale_short (one sentence). No prose outside JSON.';\nconst user = `composite_score hint: ${item.composite_score}. Explain what changed, why it matters, main risks, whether it deserves watchlist attention.\\nDATA:${JSON.stringify(item)}`;\nitem.openai_body = {\n  model: 'gpt-4o-mini',\n  temperature: 0.25,\n  response_format: { type: 'json_object' },\n  messages: [\n    { role: 'system', content: sys },\n    { role: 'user', content: user },\n  ],\n};\nreturn [{ json: item }];\n"
+      },
+      "id": "40c008ff-97b5-415f-a7ff-8e646a28f3c7",
+      "name": "Code Prepare OpenAI Body",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3840,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.OPENAI_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.openai_body) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "5e6210bb-e083-423f-888b-65269c2ed4d3",
+      "name": "HTTP OpenAI Brief",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4064,
+        272
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const openai = $input.item.json;\nconst base = $('Code Composite Score').item.json;\nlet content = openai.choices?.[0]?.message?.content || '{}';\nlet ai;\ntry {\n  ai = JSON.parse(content);\n} catch (e) {\n  ai = {\n    ticker: base.ticker,\n    score: base.composite_score,\n    sentiment: 'neutral',\n    summary: 'AI parse failed — inspect OpenAI response.',\n    key_signals: [],\n    red_flags: ['ai_parse_error'],\n    alert_recommended: true,\n    rationale_short: content.slice(0, 200),\n  };\n}\nconst thr = Number(base.alert_threshold ?? 70);\nconst scoreHi = Number(base.composite_score) >= thr;\nconst bearNews =\n  String(ai.sentiment || '').toLowerCase() === 'bearish' &&\n  (base.score_breakdown?.neg_headlines || 0) > 2;\nconst filingRisk = Number(base.score_breakdown?.riskFlag || 0) >= 1;\nai.alert_recommended =\n  Boolean(ai.alert_recommended) || scoreHi || bearNews || filingRisk;\nconst record = {\n  ...base,\n  ai,\n  composite_score: Number(ai.score) || base.composite_score,\n  run_timestamp: new Date().toISOString(),\n};\nconst t = record.ticker;\nconst s = record.composite_score;\nconst sent = ai.sentiment;\nrecord.slack_alert_text =\n  `🚨 *Stock Radar — Alert*\\n*${t}* | Score *${s}* | *${sent}*\\n• ${ai.rationale_short || ''}\\n• ${(ai.summary || '').slice(0, 320)}`;\nrecord.email_body = record.slack_alert_text.replace(/\\*/g, '');\nreturn [{ json: record }];\n"
+      },
+      "id": "6f77b315-4920-4a97-a1b4-298ea136d60e",
+      "name": "Code Parse AI And Format",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4288,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "=1LwbdIAxxx29Nbpd_ut5_RgcRHBDikISA9Hsx3PXAPMM",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "=radar_log",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ticker": "={{ $json.ticker }}",
+            "company_name": "={{ $json.company_name }}",
+            "sector": "={{ $json.sector }}",
+            "target_style": "={{ $json.target_style }}",
+            "alert_threshold": "={{ $json.alert_threshold }}",
+            "run_id": "={{ $json.run_id }}",
+            "workflow_run_started_at": "={{ $json.workflow_run_started_at }}",
+            "quote": "={{ JSON.stringify($json.quote) }}",
+            "news": "={{ JSON.stringify($json.news) }}",
+            "earnings": "={{ JSON.stringify($json.earnings) }}",
+            "filings": "={{ JSON.stringify($json.filings) }}",
+            "composite_score": "={{ $json.composite_score }}",
+            "headline_count": "={{ $json.headline_count }}",
+            "score_breakdown": "={{ JSON.stringify($json.score_breakdown) }}",
+            "ai": "={{ JSON.stringify($json.ai) }}",
+            "run_timestamp": "={{ $json.run_timestamp }}",
+            "slack_alert_text": "={{ $json.slack_alert_text }}",
+            "email_body": "={{ $json.email_body }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ticker",
+              "displayName": "ticker",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "company_name",
+              "displayName": "company_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "sector",
+              "displayName": "sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "target_style",
+              "displayName": "target_style",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "alert_threshold",
+              "displayName": "alert_threshold",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "workflow_run_started_at",
+              "displayName": "workflow_run_started_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "quote",
+              "displayName": "quote",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "news",
+              "displayName": "news",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "earnings",
+              "displayName": "earnings",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "filings",
+              "displayName": "filings",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "composite_score",
+              "displayName": "composite_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "headline_count",
+              "displayName": "headline_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "score_breakdown",
+              "displayName": "score_breakdown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ai",
+              "displayName": "ai",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_timestamp",
+              "displayName": "run_timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "slack_alert_text",
+              "displayName": "slack_alert_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email_body",
+              "displayName": "email_body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "de6cdace-dd2c-4b8c-8deb-d92f1b6e9772",
+      "name": "Sheets Append Run Log",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        4560,
+        272
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SHO2sMXeHEBM6h0y",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "591006a3-4e93-44e8-80fa-2d0543fe7f69",
+              "leftValue": "={{ $json.ai.alert_recommended }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "e20d4ff0-d3fb-4acd-a28f-eedc124983e1",
+              "leftValue": "={{ Number($json.composite_score) }}",
+              "rightValue": "={{ Number($json.alert_threshold) }}",
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "0b84f781-10a8-4eee-804d-c3933d542784",
+              "leftValue": "={{ Number($json.score_breakdown.riskFlag || 0) }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "7f34258b-b7a0-442f-8160-d800eb478c35",
+      "name": "IF Instant Alert",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        4720,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Alerts\nInstant: **IF** routes high-signal names → Slack → Discord webhook → SMTP (sequential; tame rate limits).\nDigest: **Split In Batches** “done” output reads the log and posts top 5.\nDisable channels you do not use.",
+        "height": 170,
+        "width": 420,
+        "color": 7
+      },
+      "id": "606819ba-f609-42a0-969d-9a0adf70ff8b",
+      "name": "Alerts",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4640,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "=1LwbdIAxxx29Nbpd_ut5_RgcRHBDikISA9Hsx3PXAPMM",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "=radar_log",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "d1594480-6083-44d8-b87c-51b00407c573",
+      "name": "Sheets Read Log For Digest",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1664,
+        592
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SHO2sMXeHEBM6h0y",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const start = (!$execution.startedAt ? new Date(0) : new Date($execution.startedAt));\nconst rows = $input\n  .all()\n  .map((i) => i.json)\n  .filter((r) => r.timestamp && !isNaN(new Date(r.timestamp).getTime()))\n  .filter((r) => new Date(r.timestamp) >= start);\nrows.sort((a, b) => Number(b.composite_score || 0) - Number(a.composite_score || 0));\nconst top = rows.slice(0, 5);\nconst day = start.toISOString().slice(0, 10);\nlet md = `☕ *Stock Radar — Daily Brief*\\n_${day}_ (Top ${top.length})\\n\\n`;\ntop.forEach((r, i) => {\n  md += `${i + 1}. *${r.ticker}* — *${r.composite_score}* (${r.ai_sentiment || 'n/a'})\\n   _${String(r.summary || '').slice(0, 160)}…_\\n\\n`;\n});\nif (!top.length) {\n  md += '_No log rows matched this execution window — widen the Sheet read range or check timestamps._\\n';\n}\nreturn [{ json: { digest_markdown: md, digest_plain: md.replace(/\\*/g, ''), top } }];\n"
+      },
+      "id": "4158a590-6346-4074-a734-8616dc7c08c0",
+      "name": "Code Build Daily Digest",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1904,
+        592
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Storage + digest\nEach ticker appends a row to **Stock Radar Log**.\nDigest reads recent rows ≥ execution start, ranks by `composite_score`, posts **Top 5**.\n**Notion / Airtable:** add a second append after the first Sheets append — map the same fields.",
+        "height": 170,
+        "width": 560,
+        "color": 7
+      },
+      "id": "e4aa3caf-ea03-4eec-b605-bce9bd76e744",
+      "name": "Storage Digest",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1648,
+        752
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const MAX = 49000;\n\nfunction unwrap(x) {\n  return x && typeof x === 'object' && x.json != null ? x.json : x;\n}\n\nfunction shrinkArray(items, mapRow, maxLen) {\n  const rows = items.map(unwrap).map(mapRow);\n  while (rows.length && JSON.stringify(rows).length > maxLen) {\n    rows.pop();\n  }\n  let s = JSON.stringify(rows);\n  if (s.length <= maxLen) return rows;\n  while (rows.length) {\n    const row = rows[rows.length - 1];\n    for (const k of Object.keys(row)) {\n      if (typeof row[k] === 'string' && row[k].length > 80) {\n        row[k] = row[k].slice(0, 60) + '…';\n      }\n    }\n    s = JSON.stringify(rows);\n    if (s.length <= maxLen) return rows;\n    rows.pop();\n  }\n  return [{ _note: 'rows_did_not_fit_under_limit', max: maxLen }];\n}\n\nfunction shrinkObject(v, maxLen) {\n  if (v == null) return v;\n  let s = JSON.stringify(v);\n  if (s.length <= maxLen) return v;\n  if (typeof v === 'object' && !Array.isArray(v)) {\n    const o = { ...v };\n    for (const k of Object.keys(o)) {\n      if (typeof o[k] === 'string' && o[k].length > 6000) {\n        o[k] = o[k].slice(0, 6000) + '…';\n      }\n    }\n    s = JSON.stringify(o);\n    if (s.length <= maxLen) return o;\n    return {\n      _truncated: true,\n      ticker: o.ticker,\n      sentiment: o.sentiment,\n      summary: typeof o.summary === 'string' ? o.summary.slice(0, 12000) : undefined,\n      rationale_short:\n        typeof o.rationale_short === 'string' ? o.rationale_short.slice(0, 2000) : undefined,\n    };\n  }\n  return { _truncated: true, type: typeof v, preview: s.slice(0, maxLen - 40) + '…' };\n}\n\nconst j = { ...$input.item.json };\n\nj.news = shrinkArray(\n  Array.isArray(j.news) ? j.news : [],\n  (a) => ({\n    headline: String(a?.headline ?? '').slice(0, 320),\n    source: a?.source,\n    datetime: a?.datetime,\n    url: String(a?.url ?? '').slice(0, 400),\n  }),\n  MAX,\n);\n\nj.filings = shrinkArray(\n  Array.isArray(j.filings) ? j.filings : j.filings ? [j.filings] : [],\n  (f) => ({\n    form: f?.form,\n    filedDate: f?.filedDate,\n    filingUrl: String(f?.filingUrl ?? '').slice(0, 400),\n  }),\n  MAX,\n);\n\nj.earnings = shrinkObject(j.earnings, MAX);\nj.score_breakdown = shrinkObject(j.score_breakdown, MAX);\nj.ai = shrinkObject(j.ai, MAX);\n\nreturn [{ json: j }];\n"
+      },
+      "id": "c1ed8b9b-4c8a-43c9-b65b-fa17214d6b98",
+      "name": "Code Shrink For Sheets Log",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4400,
+        272
+      ]
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "Ben-Moriarty",
+  "repo_path": "workflows/",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-08T21:36:31.530Z",
+      "createdAt": "2026-04-08T21:36:31.530Z",
+      "role": "workflow:owner",
+      "workflowId": "EKvXHstg19rlxbBC",
+      "projectId": "S02UZblfs2KvTXoJ"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-04-09T23:00:53.842Z",
+  "versionId": "77b6243b-7c29-441b-afa2-31f1711fbbc3"
+}
