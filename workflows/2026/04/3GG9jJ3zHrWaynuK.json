@@ -1,0 +1,354 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-04-10T17:17:38.680Z",
+    "createdAt": "2026-04-10T17:17:38.680Z",
+    "versionId": "2fee85a2-5f65-42d5-bd46-df21f2e4883e",
+    "workflowId": "3GG9jJ3zHrWaynuK",
+    "nodes": [
+      {
+        "id": "webhook_1",
+        "name": "Meeting Request Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          240,
+          300
+        ],
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "meeting-scheduler-ai",
+          "responseMode": "lastNode",
+          "responseData": "firstEntryJson"
+        },
+        "webhookId": "387f19af-da9c-4362-a779-d44a06c422f3"
+      },
+      {
+        "id": "code_parse",
+        "name": "Parse Request",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          500,
+          300
+        ],
+        "parameters": {
+          "mode": "runOnceForAllItems",
+          "jsCode": "const text = ($json.body?.request ?? $json.request ?? '').toString();\nif (!text) throw new Error('Missing request text in body.request or request');\n\nconst attendeeMatches = [...text.matchAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}/gi)].map(m => m[0].toLowerCase());\nconst attendees = [...new Set(attendeeMatches)];\n\nconst durationMatch = text.match(/(\\d+)\\s*(?:hr|hour|hours|h)\\b/i) || text.match(/(\\d+)\\s*(?:min|minute|minutes|m)\\b/i);\nlet durationMinutes = 60;\nif (durationMatch) {\n  const val = parseInt(durationMatch[1], 10);\n  durationMinutes = /hr|hour|hours|h/i.test(durationMatch[0]) ? val * 60 : val;\n}\n\nlet avoidBeforeHour = 9;\nconst avoidMatch = text.match(/avoid\\s+before\\s+(\\d{1,2})(?::(\\d{2}))?\\s*(am|pm)?/i);\nif (avoidMatch) {\n  let h = parseInt(avoidMatch[1], 10);\n  const ampm = (avoidMatch[3] || '').toLowerCase();\n  if (ampm === 'pm' && h < 12) h += 12;\n  if (ampm === 'am' && h === 12) h = 0;\n  avoidBeforeHour = h;\n}\n\nconst topicMatch = text.match(/topic\\s+is\\s+(.+)$/i);\nconst topic = topicMatch ? topicMatch[1].trim() : 'Meeting';\n\nconst now = new Date();\nconst day = now.getDay();\nconst daysUntilNextMonday = ((8 - day) % 7) || 7;\nconst nextMonday = new Date(now);\nnextMonday.setDate(now.getDate() + daysUntilNextMonday);\nnextMonday.setHours(0,0,0,0);\n\nconst weekStart = new Date(nextMonday);\nconst weekEnd = new Date(nextMonday);\nweekEnd.setDate(weekEnd.getDate() + 7);\n\nconst summary = `${durationMinutes/60}hr call: ${topic}`;\nconst agenda = [\n  `Topic: ${topic}`,\n  '1) Quick introductions and context',\n  '2) Demo walk-through and key workflows',\n  '3) Q&A and next steps'\n].join('\\n');\n\nreturn [{\n  json: {\n    originalRequest: text,\n    attendees,\n    attendeesCsv: attendees.join(', '),\n    durationMinutes,\n    avoidBeforeHour,\n    topic,\n    summary,\n    agenda,\n    windowStart: weekStart.toISOString(),\n    windowEnd: weekEnd.toISOString()\n  }\n}];"
+        }
+      },
+      {
+        "id": "gcal_get",
+        "name": "Get Busy Events",
+        "type": "n8n-nodes-base.googleCalendar",
+        "typeVersion": 1.3,
+        "position": [
+          760,
+          300
+        ],
+        "alwaysOutputData": true,
+        "parameters": {
+          "operation": "getAll",
+          "calendar": {
+            "__rl": true,
+            "mode": "list",
+            "value": "benmoriarty2004@gmail.com",
+            "cachedResultName": "benmoriarty2004@gmail.com"
+          },
+          "timeMin": "={{ $('Parse Request').item.json.windowStart }}",
+          "timeMax": "={{ $('Parse Request').item.json.windowEnd }}",
+          "limit": 250,
+          "options": {}
+        },
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "emsWRQ6zDZOFtWNA",
+            "name": "Google Calendar account"
+          }
+        }
+      },
+      {
+        "id": "code_pick",
+        "name": "Pick Best Slot",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1020,
+          300
+        ],
+        "parameters": {
+          "mode": "runOnceForAllItems",
+          "jsCode": "const req = $('Parse Request').first().json;\n\nconst busy = items\n  .map(i => i.json)\n  .filter(e => e && e.start && e.end)\n  .map(e => ({\n    start: new Date(e.start.dateTime || e.start),\n    end: new Date(e.end.dateTime || e.end),\n  }))\n  .filter(e => !isNaN(e.start) && !isNaN(e.end))\n  .sort((a,b) => a.start - b.start);\n\nconst durationMs = req.durationMinutes * 60 * 1000;\nconst windowStart = new Date(req.windowStart);\nconst windowEnd = new Date(req.windowEnd);\n\nlet candidate = new Date(windowStart);\nif (candidate.getHours() < req.avoidBeforeHour) {\n  candidate.setHours(req.avoidBeforeHour, 0, 0, 0);\n}\nif (candidate.getHours() >= 17) {\n  candidate.setDate(candidate.getDate() + 1);\n  candidate.setHours(req.avoidBeforeHour, 0, 0, 0);\n}\n\nfunction isWeekend(d) {\n  const day = d.getDay();\n  return day === 0 || day === 6;\n}\n\nfunction normalizeCandidate(d, avoidBeforeHour) {\n  const x = new Date(d);\n  while (isWeekend(x)) {\n    x.setDate(x.getDate() + 1);\n    x.setHours(avoidBeforeHour, 0, 0, 0);\n  }\n  if (x.getHours() < avoidBeforeHour) x.setHours(avoidBeforeHour, 0, 0, 0);\n  if (x.getHours() >= 17) {\n    x.setDate(x.getDate() + 1);\n    x.setHours(avoidBeforeHour, 0, 0, 0);\n    return normalizeCandidate(x, avoidBeforeHour);\n  }\n  return x;\n}\n\ncandidate = normalizeCandidate(candidate, req.avoidBeforeHour);\nlet chosenStart = null;\nlet chosenEnd = null;\n\nwhile (candidate < windowEnd) {\n  const end = new Date(candidate.getTime() + durationMs);\n  if (end.getHours() > 17 || (end.getHours() === 17 && end.getMinutes() > 0)) {\n    candidate.setDate(candidate.getDate() + 1);\n    candidate.setHours(req.avoidBeforeHour, 0, 0, 0);\n    candidate = normalizeCandidate(candidate, req.avoidBeforeHour);\n    continue;\n  }\n\n  const overlaps = busy.some(b => candidate < b.end && end > b.start);\n  if (!overlaps) {\n    chosenStart = new Date(candidate);\n    chosenEnd = new Date(end);\n    break;\n  }\n\n  candidate = new Date(candidate.getTime() + 30 * 60 * 1000);\n  candidate = normalizeCandidate(candidate, req.avoidBeforeHour);\n}\n\nif (!chosenStart || !chosenEnd) {\n  throw new Error('No slot found in requested window.');\n}\n\nreturn [{\n  json: {\n    ...req,\n    bestStart: chosenStart.toISOString(),\n    bestEnd: chosenEnd.toISOString(),\n    invitationText: `Hi,\\n\\nYou are invited to: ${req.summary}\\nWhen: ${chosenStart.toISOString()} to ${chosenEnd.toISOString()}\\n\\nAgenda:\\n${req.agenda}\\n\\nBest,\\nScheduler Bot`\n  }\n}];"
+        }
+      },
+      {
+        "id": "gcal_create",
+        "name": "Create Calendar Event",
+        "type": "n8n-nodes-base.googleCalendar",
+        "typeVersion": 1.3,
+        "position": [
+          1280,
+          300
+        ],
+        "parameters": {
+          "operation": "create",
+          "calendar": {
+            "__rl": true,
+            "mode": "list",
+            "value": "benmoriarty2004@gmail.com",
+            "cachedResultName": "benmoriarty2004@gmail.com"
+          },
+          "start": "={{ $json.bestStart }}",
+          "end": "={{ $json.bestEnd }}",
+          "additionalFields": {
+            "summary": "={{ $json.summary }}",
+            "description": "={{ $json.agenda }}",
+            "attendees": "={{ $json.attendees }}",
+            "sendUpdates": "all"
+          }
+        },
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "emsWRQ6zDZOFtWNA",
+            "name": "Google Calendar account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Meeting Request Webhook": {
+        "main": [
+          [
+            {
+              "node": "Parse Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse Request": {
+        "main": [
+          [
+            {
+              "node": "Get Busy Events",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Busy Events": {
+        "main": [
+          [
+            {
+              "node": "Pick Best Slot",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Pick Best Slot": {
+        "main": [
+          [
+            {
+              "node": "Create Calendar Event",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Ben Moriarty",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "2fee85a2-5f65-42d5-bd46-df21f2e4883e",
+  "connections": {
+    "Meeting Request Webhook": {
+      "main": [
+        [
+          {
+            "node": "Parse Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Request": {
+      "main": [
+        [
+          {
+            "node": "Get Busy Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Busy Events": {
+      "main": [
+        [
+          {
+            "node": "Pick Best Slot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick Best Slot": {
+      "main": [
+        [
+          {
+            "node": "Create Calendar Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-10T17:14:26.546Z",
+  "id": "3GG9jJ3zHrWaynuK",
+  "isArchived": false,
+  "meta": null,
+  "name": "AI Meeting Scheduler from Plain English",
+  "nodes": [
+    {
+      "id": "webhook_1",
+      "name": "Meeting Request Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        300
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "meeting-scheduler-ai",
+        "responseMode": "lastNode",
+        "responseData": "firstEntryJson"
+      },
+      "webhookId": "387f19af-da9c-4362-a779-d44a06c422f3"
+    },
+    {
+      "id": "code_parse",
+      "name": "Parse Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        500,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const text = ($json.body?.request ?? $json.request ?? '').toString();\nif (!text) throw new Error('Missing request text in body.request or request');\n\nconst attendeeMatches = [...text.matchAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}/gi)].map(m => m[0].toLowerCase());\nconst attendees = [...new Set(attendeeMatches)];\n\nconst durationMatch = text.match(/(\\d+)\\s*(?:hr|hour|hours|h)\\b/i) || text.match(/(\\d+)\\s*(?:min|minute|minutes|m)\\b/i);\nlet durationMinutes = 60;\nif (durationMatch) {\n  const val = parseInt(durationMatch[1], 10);\n  durationMinutes = /hr|hour|hours|h/i.test(durationMatch[0]) ? val * 60 : val;\n}\n\nlet avoidBeforeHour = 9;\nconst avoidMatch = text.match(/avoid\\s+before\\s+(\\d{1,2})(?::(\\d{2}))?\\s*(am|pm)?/i);\nif (avoidMatch) {\n  let h = parseInt(avoidMatch[1], 10);\n  const ampm = (avoidMatch[3] || '').toLowerCase();\n  if (ampm === 'pm' && h < 12) h += 12;\n  if (ampm === 'am' && h === 12) h = 0;\n  avoidBeforeHour = h;\n}\n\nconst topicMatch = text.match(/topic\\s+is\\s+(.+)$/i);\nconst topic = topicMatch ? topicMatch[1].trim() : 'Meeting';\n\nconst now = new Date();\nconst day = now.getDay();\nconst daysUntilNextMonday = ((8 - day) % 7) || 7;\nconst nextMonday = new Date(now);\nnextMonday.setDate(now.getDate() + daysUntilNextMonday);\nnextMonday.setHours(0,0,0,0);\n\nconst weekStart = new Date(nextMonday);\nconst weekEnd = new Date(nextMonday);\nweekEnd.setDate(weekEnd.getDate() + 7);\n\nconst summary = `${durationMinutes/60}hr call: ${topic}`;\nconst agenda = [\n  `Topic: ${topic}`,\n  '1) Quick introductions and context',\n  '2) Demo walk-through and key workflows',\n  '3) Q&A and next steps'\n].join('\\n');\n\nreturn [{\n  json: {\n    originalRequest: text,\n    attendees,\n    attendeesCsv: attendees.join(', '),\n    durationMinutes,\n    avoidBeforeHour,\n    topic,\n    summary,\n    agenda,\n    windowStart: weekStart.toISOString(),\n    windowEnd: weekEnd.toISOString()\n  }\n}];"
+      }
+    },
+    {
+      "id": "gcal_get",
+      "name": "Get Busy Events",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        760,
+        300
+      ],
+      "alwaysOutputData": true,
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "benmoriarty2004@gmail.com",
+          "cachedResultName": "benmoriarty2004@gmail.com"
+        },
+        "timeMin": "={{ $('Parse Request').item.json.windowStart }}",
+        "timeMax": "={{ $('Parse Request').item.json.windowEnd }}",
+        "limit": 250,
+        "options": {}
+      },
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "emsWRQ6zDZOFtWNA",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "id": "code_pick",
+      "name": "Pick Best Slot",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1020,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const req = $('Parse Request').first().json;\n\nconst busy = items\n  .map(i => i.json)\n  .filter(e => e && e.start && e.end)\n  .map(e => ({\n    start: new Date(e.start.dateTime || e.start),\n    end: new Date(e.end.dateTime || e.end),\n  }))\n  .filter(e => !isNaN(e.start) && !isNaN(e.end))\n  .sort((a,b) => a.start - b.start);\n\nconst durationMs = req.durationMinutes * 60 * 1000;\nconst windowStart = new Date(req.windowStart);\nconst windowEnd = new Date(req.windowEnd);\n\nlet candidate = new Date(windowStart);\nif (candidate.getHours() < req.avoidBeforeHour) {\n  candidate.setHours(req.avoidBeforeHour, 0, 0, 0);\n}\nif (candidate.getHours() >= 17) {\n  candidate.setDate(candidate.getDate() + 1);\n  candidate.setHours(req.avoidBeforeHour, 0, 0, 0);\n}\n\nfunction isWeekend(d) {\n  const day = d.getDay();\n  return day === 0 || day === 6;\n}\n\nfunction normalizeCandidate(d, avoidBeforeHour) {\n  const x = new Date(d);\n  while (isWeekend(x)) {\n    x.setDate(x.getDate() + 1);\n    x.setHours(avoidBeforeHour, 0, 0, 0);\n  }\n  if (x.getHours() < avoidBeforeHour) x.setHours(avoidBeforeHour, 0, 0, 0);\n  if (x.getHours() >= 17) {\n    x.setDate(x.getDate() + 1);\n    x.setHours(avoidBeforeHour, 0, 0, 0);\n    return normalizeCandidate(x, avoidBeforeHour);\n  }\n  return x;\n}\n\ncandidate = normalizeCandidate(candidate, req.avoidBeforeHour);\nlet chosenStart = null;\nlet chosenEnd = null;\n\nwhile (candidate < windowEnd) {\n  const end = new Date(candidate.getTime() + durationMs);\n  if (end.getHours() > 17 || (end.getHours() === 17 && end.getMinutes() > 0)) {\n    candidate.setDate(candidate.getDate() + 1);\n    candidate.setHours(req.avoidBeforeHour, 0, 0, 0);\n    candidate = normalizeCandidate(candidate, req.avoidBeforeHour);\n    continue;\n  }\n\n  const overlaps = busy.some(b => candidate < b.end && end > b.start);\n  if (!overlaps) {\n    chosenStart = new Date(candidate);\n    chosenEnd = new Date(end);\n    break;\n  }\n\n  candidate = new Date(candidate.getTime() + 30 * 60 * 1000);\n  candidate = normalizeCandidate(candidate, req.avoidBeforeHour);\n}\n\nif (!chosenStart || !chosenEnd) {\n  throw new Error('No slot found in requested window.');\n}\n\nreturn [{\n  json: {\n    ...req,\n    bestStart: chosenStart.toISOString(),\n    bestEnd: chosenEnd.toISOString(),\n    invitationText: `Hi,\\n\\nYou are invited to: ${req.summary}\\nWhen: ${chosenStart.toISOString()} to ${chosenEnd.toISOString()}\\n\\nAgenda:\\n${req.agenda}\\n\\nBest,\\nScheduler Bot`\n  }\n}];"
+      }
+    },
+    {
+      "id": "gcal_create",
+      "name": "Create Calendar Event",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1280,
+        300
+      ],
+      "parameters": {
+        "operation": "create",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "benmoriarty2004@gmail.com",
+          "cachedResultName": "benmoriarty2004@gmail.com"
+        },
+        "start": "={{ $json.bestStart }}",
+        "end": "={{ $json.bestEnd }}",
+        "additionalFields": {
+          "summary": "={{ $json.summary }}",
+          "description": "={{ $json.agenda }}",
+          "attendees": "={{ $json.attendees }}",
+          "sendUpdates": "all"
+        }
+      },
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "emsWRQ6zDZOFtWNA",
+          "name": "Google Calendar account"
+        }
+      }
+    }
+  ],
+  "pinData": null,
+  "repo_name": "n8n",
+  "repo_owner": "Ben-Moriarty",
+  "repo_path": "workflows/",
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-10T17:14:26.548Z",
+      "createdAt": "2026-04-10T17:14:26.548Z",
+      "role": "workflow:owner",
+      "workflowId": "3GG9jJ3zHrWaynuK",
+      "projectId": "S02UZblfs2KvTXoJ"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-10T17:17:38.679Z",
+  "versionId": "2fee85a2-5f65-42d5-bd46-df21f2e4883e"
+}
