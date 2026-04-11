@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-04-10T15:40:14.000Z",
-    "createdAt": "2026-04-10T15:40:12.144Z",
-    "versionId": "c4245d96-5ae8-45f4-a66e-bc2c9aec92f9",
+    "updatedAt": "2026-04-10T15:42:21.000Z",
+    "createdAt": "2026-04-10T15:42:18.526Z",
+    "versionId": "b891c160-7931-42ee-9029-06951a83b5e7",
     "workflowId": "YEnc8ykw3zjzD1TT",
     "nodes": [
       {
@@ -326,8 +326,7 @@
           "rule": {
             "interval": [
               {
-                "triggerAtHour": 8,
-                "triggerAtMinute": 41
+                "triggerAtHour": 7
               }
             ]
           }
@@ -845,11 +844,11 @@
       }
     },
     "authors": "Ben Moriarty",
-    "name": "Version c4245d96",
+    "name": "Version b891c160",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "c4245d96-5ae8-45f4-a66e-bc2c9aec92f9",
+  "activeVersionId": "b891c160-7931-42ee-9029-06951a83b5e7",
   "connections": {
     "n8n": {
       "main": [
@@ -1452,8 +1451,7 @@
         "rule": {
           "interval": [
             {
-              "triggerAtHour": 8,
-              "triggerAtMinute": 41
+              "triggerAtHour": 7
             }
           ]
         }
@@ -1723,6 +1721,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-04-10T15:40:12.142Z",
-  "versionId": "c4245d96-5ae8-45f4-a66e-bc2c9aec92f9"
+  "updatedAt": "2026-04-10T15:42:18.525Z",
+  "versionId": "b891c160-7931-42ee-9029-06951a83b5e7"
 }
