@@ -1,0 +1,219 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Discord Scraper Failure Alert": {
+      "main": [
+        [
+          {
+            "node": "Halt on Scraper Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Persist Watchlist Static Data": {
+      "main": [
+        [
+          {
+            "node": "Discord Watchlist Updated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily PDUFA Refresh": {
+      "main": [
+        [
+          {
+            "node": "Scrape PDUFA In-Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape PDUFA In-Workflow": {
+      "main": [
+        [
+          {
+            "node": "Persist Watchlist Static Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discord Scraper Failure Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual PDUFA Test Trigger": {
+      "main": [
+        [
+          {
+            "node": "Scrape PDUFA In-Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-16T16:03:30.877Z",
+  "id": "LuhuijoR30XZI1vs",
+  "isArchived": false,
+  "meta": null,
+  "name": "Pre-Catalyst Alert System",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6
+            }
+          ]
+        }
+      },
+      "id": "daily-pdufa-refresh",
+      "name": "Daily PDUFA Refresh",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "PDUFA scraper failed — manual check needed",
+        "options": {}
+      },
+      "id": "discord-scraper-failure-alert",
+      "name": "Discord Scraper Failure Alert",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        864,
+        560
+      ],
+      "webhookId": "a3cb980e-afbc-4103-95c4-5a2408164362",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "IRchhkoGqeAI5drd",
+          "name": "Discord Webhook - Biotech Alerts"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "PDUFA scraper failed — manual check needed"
+      },
+      "id": "halt-on-scraper-failure",
+      "name": "Halt on Scraper Failure",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const watchlist = $input.all().map((item) => item.json);\nconst staticData = $getWorkflowStaticData('global');\nstaticData.pdufa_watchlist = watchlist;\n\nreturn [\n  {\n    json: {\n      loaded_count: watchlist.length,\n      static_data_key: 'pdufa_watchlist',\n      static_data_scope: 'global',\n    },\n  },\n];"
+      },
+      "id": "persist-watchlist-static-data",
+      "name": "Persist Watchlist Static Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=PDUFA watchlist updated — {{$json.loaded_count}} tickers loaded",
+        "options": {}
+      },
+      "id": "discord-watchlist-updated",
+      "name": "Discord Watchlist Updated",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        272
+      ],
+      "webhookId": "6c53aa6d-6619-4560-8408-acbd7e250913",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "IRchhkoGqeAI5drd",
+          "name": "Discord Webhook - Biotech Alerts"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const sourceUrl = 'https://checkrare.com/2026-orphan-drugs-pdufa-dates-and-fda-approvals/';\n\nconst html = await helpers.httpRequest({\n  method: 'GET',\n  url: sourceUrl,\n  headers: {\n    'User-Agent': 'Mozilla/5.0 (compatible; n8n-pre-catalyst-alert-system/1.0)',\n    Accept: 'text/html,application/xhtml+xml',\n  },\n  returnFullResponse: false,\n  json: false,\n});\n\nif (!html || typeof html !== 'string') {\n  throw new Error('PDUFA source fetch returned empty response.');\n}\n\nconst rows = [...html.matchAll(/<tr[^>]*>([\\s\\S]*?)<\\/tr>/gi)].map((m) => m[1]);\nif (rows.length === 0) {\n  throw new Error('No table rows found on source page.');\n}\n\nconst stripTags = (value) =>\n  value\n    .replace(/<[^>]+>/g, ' ')\n    .replace(/&nbsp;/gi, ' ')\n    .replace(/&amp;/gi, '&')\n    .replace(/\\s+/g, ' ')\n    .trim();\n\nconst normalizeDate = (input) => {\n  if (!input) return null;\n  const cleaned = input.replace(/(st|nd|rd|th)/gi, '').trim();\n  const parsed = new Date(cleaned);\n  if (Number.isNaN(parsed.getTime())) return null;\n  return parsed.toISOString().slice(0, 10);\n};\n\nconst isDateLike = (value) => Boolean(normalizeDate(value));\n\nconst inferActionType = (text) => {\n  const upper = (text || '').toUpperCase();\n  if (upper.includes('BLA')) return 'BLA';\n  if (upper.includes('sNDA')) return 'sNDA';\n  if (upper.includes('NDA')) return 'NDA';\n  return 'NDA';\n};\n\nconst inferredTicker = (text) => {\n  const m = text.match(/\\(([A-Z]{1,5})\\)/);\n  if (m) return m[1];\n  const allCaps = text.match(/\\b[A-Z]{2,5}\\b/);\n  return allCaps ? allCaps[0] : null;\n};\n\nconst records = [];\n\nfor (const rowHtml of rows) {\n  const cells = [...rowHtml.matchAll(/<t[dh][^>]*>([\\s\\S]*?)<\\/t[dh]>/gi)].map((m) => stripTags(m[1]));\n  if (cells.length < 2) continue;\n\n  const joined = cells.join(' | ');\n  const maybeDate = cells.map(normalizeDate).find(Boolean);\n  if (!maybeDate) continue;\n\n  const ticker = inferredTicker(joined) || 'UNKNOWN';\n\n  const textCells = cells\n    .map((c) => c.trim())\n    .filter((c) => c.length > 0 && !isDateLike(c));\n\n  const drug = textCells[0] || 'Unknown Drug';\n  const indication = textCells[1] || 'Unknown Indication';\n\n  records.push({\n    ticker,\n    drug,\n    indication,\n    pdufa_date: maybeDate,\n    action_type: inferActionType(joined),\n    source: 'CheckRare',\n  });\n}\n\nconst today = new Date();\ntoday.setHours(0, 0, 0, 0);\n\nconst futureRecords = records.filter((item) => {\n  if (!item.pdufa_date) return false;\n  const d = new Date(item.pdufa_date);\n  d.setHours(0, 0, 0, 0);\n  return !Number.isNaN(d.getTime()) && d >= today;\n});\n\nif (futureRecords.length === 0) {\n  throw new Error('PDUFA scrape returned zero future-dated records.');\n}\n\nreturn futureRecords.map((item) => ({ json: item }));"
+      },
+      "id": "scrape-pdufa-in-workflow",
+      "name": "Scrape PDUFA In-Workflow",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        288
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {},
+      "id": "manual-pdufa-test-trigger",
+      "name": "Manual PDUFA Test Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        208,
+        160
+      ]
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "Ben-Moriarty",
+  "repo_path": "workflows/",
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "timezone": "America/New_York",
+    "binaryMode": "separate"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-16T16:03:30.879Z",
+      "createdAt": "2026-04-16T16:03:30.879Z",
+      "role": "workflow:owner",
+      "workflowId": "LuhuijoR30XZI1vs",
+      "projectId": "S02UZblfs2KvTXoJ"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-04-16T18:51:47.361Z",
+  "versionId": "bb585a19-5e48-4069-ae13-9f44c5c2585a"
+}
